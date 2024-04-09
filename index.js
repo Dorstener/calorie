@@ -10,5 +10,5 @@ let isError = false;
 // FUNCTIONS //
 
 let cleanInputString = function cleanInputString(str) {
-    const regex = /\+-/;
+    const regex = /[+-\s]/;
 }
