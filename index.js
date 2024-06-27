@@ -20,6 +20,7 @@ let isInvalidInput = function isInvalidInput (str) {
 function addEntry () {
     let targetInputContainer = document.querySelector(`#${entryDropdown.value} .input-container`);
     let entryNumber = targetInputContainer.querySelectorAll('input[type="text"]').length;
-    let HTMLString = ``;
+    let HTMLString = `<label for="${entryDropdown.value}-${entryNumber}-name"> Entry ${entryNumber} Name </label>`;
+
 };
 
