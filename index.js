@@ -27,9 +27,32 @@ function addEntry() {
     <input type="number" min="0" placeholder="Calories" id="${entryDropdown.value}-${entryNumber}-calories">
     `;
     targetInputContainer.insertAdjacentHTML("beforeend", HTMLString);
-
 };
 
+
+function calculateCalories(e) {
+    e.preventDefault();
+    isError = false;
+    let breakfastNumberInputs = document.querySelectorAll('#breakfast input[type=number]');
+    let lunchNumberInputs = document.querySelectorAll('#lunch input[type=number]');
+    let dinnerNumberInputs = document.querySelectorAll('#dinner input[type=number]');
+    let snacksNumberInputs = document.querySelectorAll('#snacks input[type=number]');
+    let exerciseNumberInputs = document.querySelectorAll('#exercise input[type=number]');
+    let breakfastCalories = getCaloriesFromInputs(breakfastNumberInputs);
+    let lunchCalories = getCaloriesFromInputs(lunchNumberInputs);
+    let dinnerCalories = getCaloriesFromInputs(dinnerNumberInputs);
+    let snacksCalories = getCaloriesFromInputs(snacksNumberInputs);
+    let exerciseCalories = getCaloriesFromInputs(exerciseNumberInputs);
+    let budgetCalories = getCaloriesFromInputs([budgetNumberInput]);
+    if (isError) {
+        return;
+    }
+    let consumedCalories = breakfastCalories + lunchCalories + dinnerCalories + snacksCalories;
+    let remainingCalories = (budgetCalories - consumedCalories) + exerciseCalories;
+    let surplusOrDeficit = (remainingCalories < 0) ? "Surplus":"Deficit"; 
+    output.innerHTML = `<span class=${surplusOrDeficit.toLowerCase()}"> ${Math.abs(remainingCalories)} Calorie ${surplusOrDeficit}</span>`;
+    <p>{budgetCalories}Calories Budgeted</p>;
+};
 
 function getCaloriesFromInputs(list) {
 
@@ -40,12 +63,14 @@ function getCaloriesFromInputs(list) {
         let invalidInputMatch = isInvalidInput(currVal);
         if (invalidInputMatch) {
             alert(`Invalid Input:${invalidInputMatch[0]}`);
+            isError = true;
+            return null;
         }
+        calories += Number(currVal);
     }
+    return calories;
 }
 
 // EVENTS //
 
 addEntryDropdown.addEventListener('click', addEntry);
-
-
